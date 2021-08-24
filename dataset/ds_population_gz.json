@@ -14,7 +14,7 @@
 				"container": "population"
 			},
 			"columnDelimiter": "\t",
-			"compressionCodec": "snappy",
+			"compressionCodec": "gzip",
 			"compressionLevel": "Optimal",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
