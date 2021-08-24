@@ -14,7 +14,7 @@
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/population/blobs/population",
-			"ignoreEmptyBlobs": true,
+			"ignoreEmptyBlobs": false,
 			"scope": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
