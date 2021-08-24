@@ -271,7 +271,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"runtimeState": "Stopped",
+				"runtimeState": "Started",
 				"pipelines": [
 					{
 						"pipelineReference": {
@@ -283,8 +283,8 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/population/blobs/population_by_age.tsv.gz",
-					"ignoreEmptyBlobs": true,
+					"blobPathBeginsWith": "/population/blobs/population",
+					"ignoreEmptyBlobs": false,
 					"scope": "[parameters('RunJob_properties_typeProperties_scope')]",
 					"events": [
 						"Microsoft.Storage.BlobCreated"
