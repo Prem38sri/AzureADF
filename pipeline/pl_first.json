@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(activity('metadata_validation').output.columnCount, 14)",
+						"value": "@equals(activity('metadata_validation').output.columnCount, 13)",
 						"type": "Expression"
 					},
 					"ifTrueActivities": [
