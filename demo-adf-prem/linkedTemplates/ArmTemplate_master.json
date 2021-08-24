@@ -19,6 +19,10 @@
 			"type": "string",
 			"defaultValue": "https://adfdatalakeprem.dfs.core.windows.net"
 		},
+		"RunJob_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +58,9 @@
 					},
 					"ls_target_population_properties_typeProperties_url": {
 						"value": "[parameters('ls_target_population_properties_typeProperties_url')]"
+					},
+					"RunJob_properties_typeProperties_scope": {
+						"value": "[parameters('RunJob_properties_typeProperties_scope')]"
 					}
 				}
 			},

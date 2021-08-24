@@ -18,6 +18,10 @@
 		"ls_target_population_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adfdatalakeprem.dfs.core.windows.net"
+		},
+		"RunJob_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
 		}
 	},
 	"variables": {
@@ -259,6 +263,36 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_population_gz')]",
 				"[concat(variables('factoryId'), '/datasets/ds_population_tsv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RunJob')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_first",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/population/blobs/population_by_age.tsv.gz",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('RunJob_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_first')]"
 			]
 		}
 	]
