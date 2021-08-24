@@ -110,6 +110,20 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "file exsist",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_population_gz",
+						"type": "DatasetReference"
+					},
+					"timeout": "1.00:00:00",
+					"sleep": 10
+				}
 			}
 		],
 		"annotations": []
