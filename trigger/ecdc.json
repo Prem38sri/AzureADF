@@ -2,7 +2,7 @@
 	"name": "ecdc",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
@@ -24,7 +24,7 @@
 				"timeZone": "UTC",
 				"schedule": {
 					"minutes": [
-						5
+						13
 					],
 					"hours": [
 						6
