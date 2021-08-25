@@ -3,7 +3,18 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Stopped",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_http_death_ecdc",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"sourceRelative": "covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv",
+					"targetFilename": "case_deaths_uk_ind_only.csv"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
