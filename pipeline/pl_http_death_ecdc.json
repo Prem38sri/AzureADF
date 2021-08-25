@@ -53,7 +53,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"relativeURL": {
-								"value": "@variables('sourceRelative')",
+								"value": "@pipeline().parameters.sourceRelative",
 								"type": "Expression"
 							}
 						}
@@ -65,7 +65,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"fileName": {
-								"value": "@variables('targetFilename')",
+								"value": "@pipeline().parameters.targetFilename",
 								"type": "Expression"
 							}
 						}
@@ -73,14 +73,12 @@
 				]
 			}
 		],
-		"variables": {
+		"parameters": {
 			"sourceRelative": {
-				"type": "String",
-				"defaultValue": "covid19/blob/main/raw/main/ecdc_data/hospital_admissions.csv"
+				"type": "string"
 			},
 			"targetFilename": {
-				"type": "String",
-				"defaultValue": "hospital_admissions.csv"
+				"type": "string"
 			}
 		},
 		"annotations": []
