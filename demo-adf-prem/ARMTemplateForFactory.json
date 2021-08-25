@@ -15,13 +15,29 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_target_population'"
 		},
+		"ls_http_github_ecdc_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com"
+		},
 		"ls_target_population_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adfdatalakeprem.dfs.core.windows.net"
 		},
+		"PipelineTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
 		"RunJob_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative": {
+			"type": "string",
+			"defaultValue": "covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_targetFilename": {
+			"type": "string",
+			"defaultValue": "case_deaths_uk_ind_only.csv"
 		}
 	},
 	"variables": {
@@ -177,6 +193,170 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_http_death_ecdc')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy ecdc data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET",
+									"requestTimeout": ""
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_ecdc_http",
+								"type": "DatasetReference",
+								"parameters": {
+									"relativeURL": {
+										"value": "@pipeline().parameters.sourceRelative",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_http_raw",
+								"type": "DatasetReference",
+								"parameters": {
+									"fileName": {
+										"value": "@pipeline().parameters.targetFilename",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"sourceRelative": {
+						"type": "string"
+					},
+					"targetFilename": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_ecdc_http')]",
+				"[concat(variables('factoryId'), '/datasets/ds_http_raw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_ecdc_http')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_http_github_ecdc",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"relativeURL": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().relativeURL",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_http_github_ecdc')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_http_raw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_target_population",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
+						"folderPath": "ecdc",
+						"fileSystem": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_target_population')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_population_gz')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -236,6 +416,21 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_http_github_ecdc')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('ls_http_github_ecdc_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_source_population')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -266,6 +461,36 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PipelineTrigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_first",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/population/blobs/population",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('PipelineTrigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_first')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/RunJob')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
@@ -293,6 +518,47 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/pl_first')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ecdc')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_http_death_ecdc",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"sourceRelative": "[parameters('ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative')]",
+							"targetFilename": "[parameters('ecdc_properties_pl_http_death_ecdc_parameters_targetFilename')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2021-08-25T05:59:00Z",
+						"timeZone": "UTC",
+						"schedule": {
+							"minutes": [
+								5
+							],
+							"hours": [
+								6
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pl_http_death_ecdc')]"
 			]
 		}
 	]

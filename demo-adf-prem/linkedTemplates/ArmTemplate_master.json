@@ -15,13 +15,29 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_target_population'"
 		},
+		"ls_http_github_ecdc_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com"
+		},
 		"ls_target_population_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adfdatalakeprem.dfs.core.windows.net"
 		},
+		"PipelineTrigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
 		"RunJob_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative": {
+			"type": "string",
+			"defaultValue": "covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_targetFilename": {
+			"type": "string",
+			"defaultValue": "case_deaths_uk_ind_only.csv"
 		},
 		"containerUri": {
 			"type": "string",
@@ -56,11 +72,23 @@
 					"ls_target_population_accountKey": {
 						"value": "[parameters('ls_target_population_accountKey')]"
 					},
+					"ls_http_github_ecdc_properties_typeProperties_url": {
+						"value": "[parameters('ls_http_github_ecdc_properties_typeProperties_url')]"
+					},
 					"ls_target_population_properties_typeProperties_url": {
 						"value": "[parameters('ls_target_population_properties_typeProperties_url')]"
 					},
+					"PipelineTrigger_properties_typeProperties_scope": {
+						"value": "[parameters('PipelineTrigger_properties_typeProperties_scope')]"
+					},
 					"RunJob_properties_typeProperties_scope": {
 						"value": "[parameters('RunJob_properties_typeProperties_scope')]"
+					},
+					"ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative": {
+						"value": "[parameters('ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative')]"
+					},
+					"ecdc_properties_pl_http_death_ecdc_parameters_targetFilename": {
+						"value": "[parameters('ecdc_properties_pl_http_death_ecdc_parameters_targetFilename')]"
 					}
 				}
 			},

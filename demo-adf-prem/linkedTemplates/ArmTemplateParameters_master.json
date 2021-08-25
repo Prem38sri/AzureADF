@@ -11,11 +11,23 @@
 		"ls_target_population_accountKey": {
 			"value": ""
 		},
+		"ls_http_github_ecdc_properties_typeProperties_url": {
+			"value": "https://github.com"
+		},
 		"ls_target_population_properties_typeProperties_url": {
 			"value": "https://adfdatalakeprem.dfs.core.windows.net"
 		},
+		"PipelineTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
 		"RunJob_properties_typeProperties_scope": {
 			"value": "/subscriptions/4d0e9b79-51f6-4dba-a862-c4549da42f4f/resourceGroups/DataFactory/providers/Microsoft.Storage/storageAccounts/adfprem"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative": {
+			"value": "covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv"
+		},
+		"ecdc_properties_pl_http_death_ecdc_parameters_targetFilename": {
+			"value": "case_deaths_uk_ind_only.csv"
 		},
 		"containerUri": {
 			"value": ""
