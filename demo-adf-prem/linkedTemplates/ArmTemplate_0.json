@@ -134,7 +134,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"fileName": {
+					"targetFilename": {
 						"type": "string"
 					}
 				},
@@ -144,7 +144,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@dataset().fileName",
+							"value": "@dataset().targetFilename",
 							"type": "Expression"
 						},
 						"folderPath": "ecdc",
@@ -436,7 +436,7 @@
 								"referenceName": "ds_http_raw",
 								"type": "DatasetReference",
 								"parameters": {
-									"fileName": {
+									"targetFilename": {
 										"value": "@pipeline().parameters.targetFilename",
 										"type": "Expression"
 									}
