@@ -33,7 +33,7 @@
 		},
 		"ecdc_properties_pl_http_death_ecdc_parameters_sourceRelative": {
 			"type": "string",
-			"defaultValue": "covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv"
+			"defaultValue": "cloudboxacademy/covid19/blob/main/raw/main/ecdc_data/case_deaths_uk_ind_only.csv"
 		},
 		"ecdc_properties_pl_http_death_ecdc_parameters_targetFilename": {
 			"type": "string",
