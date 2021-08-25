@@ -61,6 +61,16 @@
 				]
 			}
 		],
+		"variables": {
+			"sourceRelative": {
+				"type": "String",
+				"defaultValue": "covid19/blob/main/raw/main/ecdc_data/hospital_admissions.csv"
+			},
+			"targetFilename": {
+				"type": "String",
+				"defaultValue": "hospital_admissions.csv"
+			}
+		},
 		"annotations": []
 	}
 }
