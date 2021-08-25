@@ -64,7 +64,7 @@
 						"referenceName": "ds_http_raw",
 						"type": "DatasetReference",
 						"parameters": {
-							"fileName": {
+							"targetFilename": {
 								"value": "@pipeline().parameters.targetFilename",
 								"type": "Expression"
 							}
